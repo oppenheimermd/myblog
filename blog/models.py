@@ -3,6 +3,16 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from taggit.managers import TaggableManager
+import logging
+
+
+
+#   rename image to that of the post slug
+#   https://stackoverflow.com/questions/51570254/django-change-name-of-image-from-imagefield
+def rename_image(instance, filename):
+    filebase, extension = filename.split('.')
+    logging.info("post.slug: ${slug}")
+    return 'images/%s.%s' % (instance.slug, extension)
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -22,9 +32,10 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=10,choices=STATUS_CHOICES,default='draft')
     tags = TaggableManager()
+    post_cover = models.ImageField(upload_to=rename_image, blank=True) 
 
     objects = models.Manager() # The default manage.
-    published = PublishedManager() #Our custom manage.
+    published = PublishedManager() #Our custom manager.
 
     # Canonical URL for Post objects.
     def get_absolute_url(self):
