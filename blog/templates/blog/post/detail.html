@@ -1,5 +1,4 @@
 {% extends "blog/base.html" %}
-
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -7,6 +6,11 @@
     <p class="date">
         Published {{ post.publish}} by {{ post.author }}
     </p>
+
+    {% if post.post_cover %}
+    <img src="{{ post.post_cover.url }}" alt="{{ post.title }}">
+    {% endif %}
+    
     {{ post.body|linebreaks }}
 
     <h2>Similar posts</h2>
