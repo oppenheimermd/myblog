@@ -1,0 +1,9 @@
+{
+	"version": 3,
+	"file": "base-styles.css",
+	"sources": [
+		"base-styles.scss"
+	],
+	"names": [],
+	"mappings": "AAAA,AAAA,WAAW,CAAA;EACP,SAAS,EAAE,KAAK,GACnB"
+}

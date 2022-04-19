@@ -8,6 +8,11 @@
     <p class="date">
         Published {{ post.publish}} by {{ post.author }}
     </p>
+
+    {% if post.post_cover %}
+        <img src="{{ post.post_cover.url }}" alt="{{ post.title }}" class="post-cover">
+    {% endif %}
+
     {{ post.body|markdown }}
 
     <h2>Similar posts</h2>
