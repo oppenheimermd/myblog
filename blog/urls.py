@@ -1,6 +1,7 @@
 from importlib.resources import path
 from django.urls import path
 from . import views
+from .feeds import LastestPostFeed
 
 # application namespace.  Allows us to organize URL's by application and use the
 # 'app_name' when referring to it.
@@ -15,4 +16,5 @@ urlpatterns = [
         views.post_detail,
         name='post_detail'),
     path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
+    path('feed/', LastestPostFeed(), name='post_feed'),
 ]

@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'taggit',
     'sass_processor',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     #   Must be placed last!
     'django_cleanup.apps.CleanupConfig',

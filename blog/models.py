@@ -14,6 +14,12 @@ def rename_image(instance, filename):
     logging.info("post.slug: ${slug}")
     return 'images/%s.%s' % (instance.slug, extension)
 
+#   rename image to that of the post slug
+#   https://stackoverflow.com/questions/51570254/django-change-name-of-image-from-imagefield
+def rename_image(instance, filename):
+    filebase, extension = filename.split('.')
+    return 'images/%s.%s' % (instance.slug, extension)
+
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')

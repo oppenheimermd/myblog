@@ -1,4 +1,6 @@
 {% extends "blog/base.html" %}
+{% load blog_tags %}
+
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
@@ -8,10 +10,10 @@
     </p>
 
     {% if post.post_cover %}
-    <img src="{{ post.post_cover.url }}" alt="{{ post.title }}">
+        <img src="{{ post.post_cover.url }}" alt="{{ post.title }}" class="post-cover">
     {% endif %}
-    
-    {{ post.body|linebreaks }}
+
+    {{ post.body|markdown }}
 
     <h2>Similar posts</h2>
     {% for post in similar_posts %}
