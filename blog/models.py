@@ -24,7 +24,7 @@ class Post(models.Model):
     tags = TaggableManager()
 
     objects = models.Manager() # The default manage.
-    published = PublishedManager() #Our custom manage.
+    published = PublishedManager() #Our custom manager.
 
     # Canonical URL for Post objects.
     def get_absolute_url(self):
