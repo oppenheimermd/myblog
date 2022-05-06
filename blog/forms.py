@@ -15,3 +15,6 @@ class CommentForm(forms.ModelForm):
         # model and build the form dynamically for you.
         model = Comment
         fields = ('name', 'email', 'body')
+
+class SearchForm(forms.Form):
+    query = forms.CharField()

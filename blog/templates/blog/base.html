@@ -1,6 +1,6 @@
 {% load blog_tags %}
 {% load static %}
-{% load sass_tags %}
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,8 +8,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Blogging Life and Code | {% block title %}{% endblock %}</title>
-        <link href="{% static "css/blog.css" %}" rel="stylesheet">
-        <link href="{% sass_src 'sass/base-styles.scss' %}" rel="stylesheet" type="text/css" />
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="{% static '/css/styles.css' %}">
     </head>
     <body>
         <div id="content">

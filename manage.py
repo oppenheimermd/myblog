@@ -2,11 +2,22 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from dotenv import load_dotenv
 
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myblog.settings')
+
+        # Only for Local Development - Load environment variables from the .env file
+    if not 'WEBSITE_HOSTNAME' in os.environ:
+        print("Loading environment variables for .env file")
+        load_dotenv('./.env')
+
+    # When running on Azure App Service you should use the production settings.
+    settings_module = "myblog.production" if 'WEBSITE_HOSTNAME' in os.environ else 'myblog.settings'
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
+
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

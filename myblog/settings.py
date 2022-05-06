@@ -12,27 +12,30 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-import json
-from django.core.exceptions import ImproperlyConfigured
+#import json #REMOVE
+#from django.core.exceptions import ImproperlyConfigured  #REMOVE
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:
-    secrets = json.load(secrets_file)
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ['SECRET_KEY'],
 
-def get_secret(setting, secrets=secrets):
-    """Get secret setting or fail with ImproperlyConfigured"""
-    try:
-        return secrets[setting]
-    except KeyError:
-        raise ImproperlyConfigured("Set the {} setting".format(setting))
+#with open(os.path.join(BASE_DIR, 'secrets.json')) as secrets_file:  #REMOVE
+#    secrets = json.load(secrets_file)                               #REMOVE
+
+#def get_secret(setting, secrets=secrets):                                  #REMOVE
+#    """Get secret setting or fail with ImproperlyConfigured"""                #REMOVE
+#    try:                                                                       #REMOVE
+#        return secrets[setting]                                            #REMOVE
+#    except KeyError:                                                       #REMOVE
+#        raise ImproperlyConfigured("Set the {} setting".format(setting))  #REMOVE
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v-4no^r&34n()sr3m==ph&f_i&bii!!m+9*12dw1(e3-e0pnj$'
+SECRET_KEY = os.environ['SECRET_KEY'],
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -50,11 +53,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'blog.apps.BlogConfig',
     'taggit',
-    'sass_processor',
-    #'django.contrib.sites',
+
     'django.contrib.sitemaps',
+    'django.contrib.postgres',
 
     #   Must be placed last!
     'django_cleanup.apps.CleanupConfig',
@@ -94,13 +98,23 @@ WSGI_APPLICATION = 'myblog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
+
+
+# Configure Postgres database for local development
+#   Set these environment variables in the .env file for this project.  
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': get_secret('DB_NAME'),
-        'USER': get_secret('DB_USER'),
-        'PASSWORD': get_secret('DB_PASSWORD'),
-        'HOST': 'localhost',# for some reason won't work without
+        'NAME': os.environ['DBNAME'],
+        'HOST': os.environ['DBHOST'],
+        'USER': os.environ['DBUSER'],
+        'PASSWORD': os.environ['DBPASS'] 
     }
 }
 
@@ -139,24 +153,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
 STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Base url to serve media files
-MEDIA_URL = '/media/'
-
-# Path where media is stored
-MEDIA_ROOT = BASE_DIR / "media"
-
-#   Sass
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'sass_processor.finders.CssFinder',
-]
-
-# Django Sass
-SASS_PROCESSOR_ROOT = os.path.join(BASE_DIR,'static')
