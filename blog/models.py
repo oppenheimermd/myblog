@@ -6,13 +6,13 @@ from taggit.managers import TaggableManager
 import logging
 
 
-
 #   rename image to that of the post slug
 #   https://stackoverflow.com/questions/51570254/django-change-name-of-image-from-imagefield
 def rename_image(instance, filename):
     filebase, extension = filename.split('.')
     logging.info("post.slug: ${slug}")
     return 'images/%s.%s' % (instance.slug, extension)
+
 
 #   rename image to that of the post slug
 #   https://stackoverflow.com/questions/51570254/django-change-name-of-image-from-imagefield
@@ -50,6 +50,7 @@ class Post(models.Model):
                                self.publish.month,
                                self.publish.day,
                                self.slug])
+
 
     class Meta:
         ordering = ('-publish',)
